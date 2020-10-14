@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>{{ willSpeak ? 'Ik wil iets vertellen over' : 'Ik wil meer weten over'}}</h2>
+<form [formGroup]="form">
+  <mat-dialog-content class="mat-typography">
+    <mat-form-field>
+      <input matInput formControlName="title">
+    </mat-form-field>
+    <mat-icon *ngIf="willSpeak" color="accent">how_to_reg</mat-icon>
+    <mat-icon>star</mat-icon>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button mat-dialog-close>Annuleren</button>
+    <button type="submit"
+            color="primary"
+            mat-flat-button
+            [mat-dialog-close]="form.value.title ? form.value : undefined">
+      OK
+    </button>
+  </mat-dialog-actions>
+</form>

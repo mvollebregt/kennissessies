@@ -1,0 +1,27 @@
+<h1>Kennissessiestemmer</h1>
+
+<div class="buttons">
+  <button mat-flat-button
+          color="primary"
+          (click)="openDialog(true)">
+    <mat-icon>how_to_reg</mat-icon>
+    Ik heb een nieuw onderwerp waarover ik iets wil vertellen
+  </button>
+
+  <button mat-flat-button
+          color="primary"
+          (click)="openDialog()">
+    <mat-icon>star</mat-icon>
+    Ik heb een nieuw onderwerp waarover ik meer wil weten
+  </button>
+</div>
+
+<app-summary-card *ngFor="let proposal of proposals | async"
+                  [proposal]="proposal"
+                  [votedInFavour]="includesCurrentUser(proposal.emailsVotedInFavour)"
+                  [willSpeak]="includesCurrentUser(proposal.emailsWillSpeak)"
+                  (votedInFavourChange)="onVoted(proposal, $event)"
+                  (willSpeakChange)="onWillSpeak(proposal, $event)">
+
+</app-summary-card>
+

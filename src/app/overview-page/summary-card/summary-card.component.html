@@ -1,0 +1,31 @@
+<mat-card *ngIf="proposal" style="">
+  <div class="card-main">
+    <mat-card-header>
+      <mat-card-title>
+        {{proposal.title}}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-footer>
+      {{proposal.emailsVotedInFavour.length}} keer op gestemd
+    </mat-card-footer>
+  </div>
+  <button mat-icon-button
+          (click)="willSpeakChanged()"
+          [matTooltip]="willSpeak ?
+                            'Je wilt hier iets over vertellen' :
+                        proposal.emailsWillSpeak.length === 0 ?
+                            'Selecteer als je hier iets over wilt vertellen' :
+                            'Iemand wil hier iets over vertellen'">
+    <mat-icon [color]="willSpeak ? 'accent' : undefined"
+              [class.unchecked]="!willSpeak && proposal.emailsWillSpeak.length === 0">
+      how_to_reg
+    </mat-icon>
+  </button>
+  <button mat-icon-button
+          (click)="voteChanged()"
+          [matTooltip]="votedInFavour ? 'Je vindt dit interessant': 'Selecteer als je dit interessant vindt'">
+    <mat-icon>
+      {{votedInFavour ? 'star' : 'star_outline'}}
+    </mat-icon>
+  </button>
+</mat-card>
