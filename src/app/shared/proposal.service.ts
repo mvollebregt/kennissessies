@@ -52,18 +52,14 @@ export class ProposalService {
     return votes.filter(vote => vote[prop]).map(vote => vote.email);
   }
 
-  vote(id: string, currentUserEmail: string | undefined, votedInFavour: boolean): void {
-    this.afs.doc<Vote>(`proposals/${id}/votes/${currentUserEmail}`).update({votedInFavour});
-  }
-
-  willSpeak(id: string, currentUserEmail: string | undefined, willSpeak: boolean): void {
-    this.afs.doc<Vote>(`proposals/${id}/votes/${currentUserEmail}`).update({willSpeak});
+  vote(id: string, currentUserEmail: string | undefined, votedInFavour: boolean, willSpeak: boolean): void {
+    this.afs.doc<Omit<Vote, 'email'>>(`proposals/${id}/votes/${currentUserEmail}`).set({votedInFavour, willSpeak});
   }
 
   create(proposal: Omit<Proposal, 'id' | 'emailsVotedInFavour' | 'emailsWillSpeak'>, currentUserEmail: string, willSpeak: boolean): void {
     const id = this.afs.createId();
     this.afs.collection<Proposal>('proposals').doc(id).set(proposal).then(() =>
-      this.afs.doc<Omit<Vote, 'email'>>(`proposals/${id}/votes/${currentUserEmail}`).set({votedInFavour: true, willSpeak})
+      this.vote(id, currentUserEmail, true, willSpeak)
     );
   }
 }

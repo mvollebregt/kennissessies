@@ -2,10 +2,14 @@ import {Component} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Proposal} from '../shared/proposal';
 import {ProposalService} from '../shared/proposal.service';
-import {AuthService} from '../shared/auth.service';
-import {first} from 'rxjs/operators';
+import {filter, first} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {EditDialogComponent} from './edit-dialog/edit-dialog.component';
+import {AngularFireAuth} from '@angular/fire/auth';
+
+function isNonNull<T>(value: T): value is NonNullable<T> {
+  return value !== null;
+}
 
 @Component({
   selector: 'app-overview-page',
@@ -20,19 +24,19 @@ export class OverviewPageComponent {
 
   constructor(private proposalService: ProposalService,
               private dialog: MatDialog,
-              private authService: AuthService) {
+              private auth: AngularFireAuth
+  ) {
     this.proposals = proposalService.getProposals();
-    authService.getCurrentUser().pipe(first()).subscribe(
-      user => this.currentUserEmail = user.email
+    auth.user.pipe(
+      filter(isNonNull),
+      first()
+    ).subscribe(
+      user => this.currentUserEmail = user.email || undefined
     );
   }
 
-  onVoted(proposal: Proposal, inFavour: boolean): void {
-    this.proposalService.vote(proposal.id, this.currentUserEmail, inFavour);
-  }
-
-  onWillSpeak(proposal: Proposal, willSpeak: boolean): void {
-    this.proposalService.willSpeak(proposal.id, this.currentUserEmail, willSpeak);
+  vote(proposal: Proposal, inFavour: boolean, willSpeak: boolean): void {
+    this.proposalService.vote(proposal.id, this.currentUserEmail, inFavour, willSpeak);
   }
 
   openDialog(willSpeak = false): void {

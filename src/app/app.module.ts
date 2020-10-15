@@ -7,6 +7,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {NgxAuthFirebaseUIModule} from 'ngx-auth-firebaseui';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    NgxAuthFirebaseUIModule.forRoot(environment.firebase)
   ],
   providers: [],
   bootstrap: [AppComponent]

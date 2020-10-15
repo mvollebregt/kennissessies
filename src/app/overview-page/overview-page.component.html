@@ -20,8 +20,8 @@
                   [proposal]="proposal"
                   [votedInFavour]="includesCurrentUser(proposal.emailsVotedInFavour)"
                   [willSpeak]="includesCurrentUser(proposal.emailsWillSpeak)"
-                  (votedInFavourChange)="onVoted(proposal, $event)"
-                  (willSpeakChange)="onWillSpeak(proposal, $event)">
+                  (votedInFavourChange)="vote(proposal, $event, includesCurrentUser(proposal.emailsWillSpeak))"
+                  (willSpeakChange)="vote(proposal, includesCurrentUser(proposal.emailsVotedInFavour) ,$event)">
 
 </app-summary-card>
 
