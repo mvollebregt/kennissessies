@@ -28,11 +28,11 @@ export class OverviewPageComponent {
   }
 
   onVoted(proposal: Proposal, inFavour: boolean): void {
-    this.proposalService.vote(proposal, this.currentUserEmail, inFavour);
+    this.proposalService.vote(proposal.id, this.currentUserEmail, inFavour);
   }
 
   onWillSpeak(proposal: Proposal, willSpeak: boolean): void {
-    this.proposalService.willSpeak(proposal, this.currentUserEmail, willSpeak);
+    this.proposalService.willSpeak(proposal.id, this.currentUserEmail, willSpeak);
   }
 
   openDialog(willSpeak = false): void {
@@ -40,11 +40,7 @@ export class OverviewPageComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && this.currentUserEmail) {
-        this.proposalService.create({
-          title: result.title,
-          emailsVotedInFavour: [this.currentUserEmail],
-          emailsWillSpeak: willSpeak ? [this.currentUserEmail] : []
-        });
+        this.proposalService.create({title: result.title}, this.currentUserEmail, willSpeak);
       }
     });
   }

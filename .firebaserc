@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "kennissessies-idx": {
+      "hosting": {
+        "kennissessies": [
+          "kennissessies-idx"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "kennissessies-idx"
+  }
+}
